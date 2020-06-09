@@ -4,11 +4,11 @@ package com.Ayoub;
 
 public class Corps {
     public String name;
-    public int[] pos;
+    public double[] pos;
     public int mass;
     public int[] vitesse;
 
-    public Corps(String name, int[] position, int mass, int[] vitess) {
+    public Corps(String name, double[] position, int mass, int[] vitess) {
         this.name = name;
         this.pos = position;
         this.mass = mass;
@@ -16,11 +16,11 @@ public class Corps {
     }
 
 
-    public void setPos(int[] pos) {
+    public void setPos(double[] pos) {
         this.pos = pos;
     }
 
-    public int[] getPos() {
+    public double[] getPos() {
         return pos;
     }
 
