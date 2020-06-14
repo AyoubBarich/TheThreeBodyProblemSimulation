@@ -12,12 +12,21 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class Main extends Application {
 
     public static void main(String[] args) {
 	// write your code here
 
-        launch(args);
+         Simulation.setAstre("sun", Plan.Pos,10, new int[]{10, 6},50, Color.YELLOW);
+          Simulation.setAstre("Moon", Plan.Pos=new double[]{100,100 },2, new int[]{3, 2},10,Color.GRAY);
+            Simulation.setAstre("Earth",Plan.Pos=new double[]{300,400 },4, new int[]{5, 4},25,Color.BLUE);
+        //System.out.println(Simulation.getForce(Simulation.allBodies.get(1), Simulation.allBodies.get(0))[0]/Simulation.allBodies.get(0).getMass());
+
+
+        // launch(args);
 
 
     }
@@ -25,54 +34,40 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        int Time =3;
-        Pane root =  new Pane();
-        Plan.paint();
-        Plan.Animation();
+    int Time =3;
 
-    root.getChildren().add(Plan.sun);
-    root.getChildren().add(Plan.earth);
-    root.getChildren().add(Plan.moon);
-
-    TranslateTransition transitionSun = new TranslateTransition();
-    transitionSun.setDuration(Duration.seconds(Time));
-    transitionSun.setAutoReverse(true);
-    transitionSun.setCycleCount(Animation.INDEFINITE);
-    transitionSun.setToX(Plan.nextPos[0]);
-    transitionSun.setToY(Plan.nextPos[1]);
-    transitionSun.setNode(Plan.sun);
-    transitionSun.play();
+    Plan.Paint();
+    //Plan.Animation();
+    TransitionHandler();
 
 
-    TranslateTransition transitionEarth = new TranslateTransition();
-    transitionEarth.setDuration(Duration.seconds(Time));
-
-    transitionEarth.setToX(Plan.nextPos1[0]);
-    transitionEarth.setAutoReverse(true);
-    transitionEarth.setCycleCount(Animation.INDEFINITE);
-    transitionEarth.setToY(Plan.nextPos1[1]);
-    transitionEarth.setNode(Plan.earth);
-    transitionEarth.play();
-
-
-    TranslateTransition transitionMoon = new TranslateTransition();
-    transitionMoon.setDuration(Duration.seconds(Time));
-    transitionMoon.setAutoReverse(true);
-    transitionMoon.setCycleCount(Animation.INDEFINITE);
-    transitionMoon.setToX(Plan.nextPos2[0]);
-    transitionMoon.setToY(Plan.nextPos2[1]);
-    transitionMoon.setNode(Plan.moon);
-    transitionMoon.play();
-
-
-
-
-    Scene scene = new Scene(root, 900, 800);
+    Scene scene = new Scene(setRoot(Simulation.allCircles), 900, 800);
 
     stage.setTitle("Simulation");
     stage.setScene(scene);
     stage.show();
 
 
+    }
+    public static void TransitionHandler(){
+        for (int i = 0; i <Simulation.allBodies.size() ; i++) {
+
+            TranslateTransition transition = new TranslateTransition();
+            transition.setDuration(Duration.seconds(4));
+            transition.setAutoReverse(true);
+            transition.setCycleCount(Animation.INDEFINITE);
+            transition.setToX(Simulation.allBodies.get(i).pos[0]);
+            transition.setToY(Simulation.allBodies.get(i).pos[1]);
+            transition.setNode(Simulation.allCircles.get(i));
+            transition.play();
+
+        }
+    }
+    public Pane setRoot(ArrayList<Circle> bodies){
+        Pane root = new Pane();
+        for (int i = 0; i <bodies.size() ; i++) {
+            root.getChildren().add(bodies.get(i));
+        }
+        return root;
     }
 }

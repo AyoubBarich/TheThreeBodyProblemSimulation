@@ -1,14 +1,35 @@
 package com.Ayoub;
 
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+
+import java.util.ArrayList;
 import java.util.TimerTask;
 
 public abstract class Simulation extends TimerTask {
+    public  static int n =15;
+    public static int g =100;
+    int scope = 1;
+    double w = 0.729;
+    double c1 = 1.49445;
+    double c2 = 1.49445;
+    double[][] v = new double[n][3];
+
+    double[] vmax = new double[]{scope*0.01,scope*0.01,scope*0.01};
+    double[] vmin = new double[]{-scope*0.01,-scope*0.01,-scope*0.01};
+
+    static ArrayList<Corps> allBodies= new ArrayList<>() ;
+    static ArrayList<Circle> allCircles = new ArrayList<>();
+
+
+
 
     static double t = 0.001d;
 
-   public static Corps setAstre(String name , double[]position, int mass, int[] vitess){
+   public static void setAstre(String name , double[]position, int mass, int[] vitess, int rayon, Color color){
+       allBodies .add(new Corps(name, position, mass, vitess,rayon,color));
+       allCircles.add(new Circle());
 
-       return   new Corps(name, position, mass, vitess);
    }
    public static double getDistance (double [] point1, double[] point2 ) {
        return Math.pow(Math.pow(point1[0]-point2[0],2)+Math.pow(point1[1]-point2[1],2),1.0/2);
@@ -29,12 +50,15 @@ public abstract class Simulation extends TimerTask {
 
 
    }
-/*public static int BodyNumber(int num){
-       num =3;
-       return num;
+   public static  double[] getForce (Corps source,Corps Applique){
+
+       return new double[]{ source.mass*getAcceleration(source,Applique)[0],source.mass*getAcceleration(source,Applique)[0]};
+
+   }
 
 
-}*/
+
+
 
 
 
