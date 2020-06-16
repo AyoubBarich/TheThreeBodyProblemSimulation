@@ -8,7 +8,7 @@ import java.util.TimerTask;
 
 public abstract class Simulation extends TimerTask {
     public  static int n =15;
-    public static int g =100;
+    public static final double G = 1;
     int scope = 1;
     double w = 0.729;
     double c1 = 1.49445;

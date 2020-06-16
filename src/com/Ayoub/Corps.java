@@ -13,6 +13,7 @@ public class Corps {
     public int[] vitesse ;
     public int rayon ;
     public Color color;
+    public java.awt.Color coleur;
 
 
     public Corps(String name, double[] position, int mass, int[] vitess, int rayon, javafx.scene.paint.Color color) {
@@ -22,6 +23,7 @@ public class Corps {
         this.vitesse = vitess;
         this.rayon = rayon;
         this.color = color;
+        this.coleur = java.awt.Color.getColor(color.toString()) ;
     }
 
 
@@ -62,11 +64,17 @@ this.pos = pos;
     public  void updateVitesse (ArrayList<Corps> allBodies , float timeStep ){
         for (Corps otherBody : allBodies){
             int i = 0;
-            if (otherBody !=this ){
-                otherBody.vitesse[0] += Simulation.getAcceleration(otherBody,allBodies.get(i))[0]*timeStep;
-                otherBody.vitesse[1] += Simulation.getAcceleration(otherBody,allBodies.get(i))[1]*timeStep;
-            }
             i++;
+            if (otherBody !=this ){
+               double sqrDSt = (Math.pow(Math.pow(otherBody.getPos()[0]-allBodies.get(i).getPos()[0],2)+Math.pow(otherBody.getPos()[1]-allBodies.get(i).getPos()[1],2),1.0/2));
+               double[] forceDir = new double[]{ ((otherBody.getPos()[0]*otherBody.getPos()[1])/sqrDSt),(allBodies.get(i).getPos()[0]*allBodies.get(i).getPos()[1])/sqrDSt};
+               double[] force = new double[]{forceDir[0]*Simulation.G*otherBody.getMass()*allBodies.get(i).getMass()/sqrDSt,forceDir[0]*Simulation.G*otherBody.getMass()*allBodies.get(i).getMass()/sqrDSt};
+               double[]  acceleration = new double[]{force[0]*otherBody.getMass(),force[0]*otherBody.getMass()};
+               this.vitesse[0] += acceleration[0]*timeStep;
+               this.vitesse[1] += acceleration[1]*timeStep;
+
+            }
+
         }
     }
     public  void updatePosition ( float timeStep){
@@ -77,8 +85,12 @@ this.pos = pos;
     }
 
 
-
-
+    public void draw(Graphics g, double size)
+    {
+        g.setColor(coleur);
+        g.fillOval((int)(650+(pos[0]-rayon/2-650)*size), (int)(500+(pos[0]-rayon/2-500)*size),
+                (int)(rayon*size), (int)(rayon*size));
+    }
 }
 
 

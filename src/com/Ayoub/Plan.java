@@ -7,13 +7,14 @@ import javafx.scene.shape.Circle;
 public  class Plan   {
     public static double [] Pos = new double[]{450,400};
 
-    public static void Animation()  {
+    public static void Animation(float timeStep)  {
         for (int i = 0; i <Simulation.allBodies.size() ; i++) {
-            Simulation.allBodies.get(i).updatePosition(4);
-            Simulation.allBodies.get(i).updateVitesse(Simulation.allBodies,4);
-
-
+            Simulation.allBodies.get(i).updatePosition(timeStep);
         }
+        for (int i = 0; i <Simulation.allBodies.size() ; i++) {
+            Simulation.allBodies.get(i).updateVitesse(Simulation.allBodies,timeStep);
+        }
+
     }
     public static void Paint (){
         for (int i = 0; i <Simulation.allBodies.size() ; i++) {
@@ -22,6 +23,7 @@ public  class Plan   {
                 Simulation.allCircles.get(i).setLayoutX(body.pos[0]);
                 Simulation.allCircles.get(i).setLayoutY(body.pos[1]);
                 Simulation.allCircles.get(i).setFill(body.color);
+
 
 
 
